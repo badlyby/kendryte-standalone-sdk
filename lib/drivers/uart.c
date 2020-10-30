@@ -378,14 +378,14 @@ void uart_irq_register(uart_device_number_t channel, uart_interrupt_mode_t inter
 {
     if(interrupt_mode == UART_SEND)
     {
-        uart[channel]->IER |= 0x2;
         g_uart_instance[channel].uart_send_instance.callback = uart_callback;
         g_uart_instance[channel].uart_send_instance.ctx = ctx;
+	uart[channel]->IER |= 0x2;
     } else if(interrupt_mode == UART_RECEIVE)
     {
-        uart[channel]->IER |= 0x1;
         g_uart_instance[channel].uart_receive_instance.callback = uart_callback;
         g_uart_instance[channel].uart_receive_instance.ctx = ctx;
+	uart[channel]->IER |= 0x1;
     }
     g_uart_instance[channel].uart_num = channel;
     plic_set_priority(IRQN_UART1_INTERRUPT + channel, priority);
